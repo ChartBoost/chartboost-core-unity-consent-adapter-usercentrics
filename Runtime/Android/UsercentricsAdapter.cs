@@ -8,20 +8,21 @@ namespace Chartboost.Core.Usercentrics.Android
     internal class UsercentricsAdapter : NativeModule
     {
         private const string ClassUsercentricsAdapter = "com.chartboost.core.consent.usercentrics.UsercentricsAdapter";
+        private const string ClassUsercentricsOptions = "com.usercentrics.sdk.UsercentricsOptions";
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void SetInstance() => Usercentrics.UsercentricsAdapter.InstanceType = typeof(UsercentricsAdapter);
         
         [Preserve]
-        public UsercentricsAdapter(UsercentricsOptions options) : base(CreateInstance(options)) { }
+        public UsercentricsAdapter(string dpsName, UsercentricsOptions options) : base(CreateInstance(dpsName, options)) { }
 
         [Preserve]
         public UsercentricsAdapter(Dictionary<string, object> jsonConfig) : base(CreateInstance(jsonConfig)) { }
 
-        private static AndroidJavaObject CreateInstance(UsercentricsOptions options)
+        private static AndroidJavaObject CreateInstance(string dpsName, UsercentricsOptions options)
         {
-            var usercentricsOptions = new AndroidJavaObject("com.usercentrics.sdk.UsercentricsOptions", options.SettingsId);
-            return new AndroidJavaObject(ClassUsercentricsAdapter, "ChartboostCore", usercentricsOptions, null);
+            var usercentricsOptions = new AndroidJavaObject(ClassUsercentricsOptions, options.SettingsId);
+            return new AndroidJavaObject(ClassUsercentricsAdapter, dpsName, usercentricsOptions, null);
         }
 
         private static AndroidJavaObject CreateInstance(Dictionary<string, object> jsonConfig)

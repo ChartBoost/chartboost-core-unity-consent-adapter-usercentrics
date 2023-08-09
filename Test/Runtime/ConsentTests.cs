@@ -14,7 +14,7 @@ namespace Chartboost.Core.Usercentrics.Tests
         
         private static UsercentricsOptions usercentricsOptions = new UsercentricsOptions("");
         
-        private static readonly UsercentricsAdapter UsercentricsAdapter = new UsercentricsAdapter(usercentricsOptions);
+        private static readonly UsercentricsAdapter UsercentricsAdapter = new UsercentricsAdapter("ChartboostCore", usercentricsOptions);
         
         private readonly InitializableModule[] _modules = {
             UsercentricsAdapter

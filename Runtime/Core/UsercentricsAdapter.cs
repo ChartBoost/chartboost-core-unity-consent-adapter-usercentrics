@@ -5,10 +5,12 @@ namespace Chartboost.Core.Usercentrics
 {
     public class UsercentricsAdapter : NativeInitializableModule<UsercentricsAdapter>
     {
+        public string DPSName { get; } = "ChartboostCore";
         public UsercentricsOptions Options { get; }
 
-        public UsercentricsAdapter(UsercentricsOptions options) : base(options)
+        public UsercentricsAdapter(string dpsName, UsercentricsOptions options) : base(dpsName, options)
         {
+            DPSName = dpsName;
             Options = options;
         }
 
