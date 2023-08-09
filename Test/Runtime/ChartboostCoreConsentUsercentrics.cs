@@ -65,8 +65,6 @@ namespace Chartboost.Core.Usercentrics.Tests
             var sdkConfig = new ChartboostCoreSDKConfiguration(Application.identifier);
             ChartboostCore.Initialize(sdkConfig, _modules);
             yield return new WaitForSeconds(ConstDelayAfterInit);
-            var resetConsent = ChartboostCore.Consent.SetConsentStatus(ChartboostCoreConsentStatus.Unknown, ChartboostCoreConsentStatusSource.User);
-            yield return new WaitUntil(() => resetConsent.IsCompleted);
             ChartboostCore.ModuleInitializationCompleted -= AssertModule;
         }
         
@@ -88,30 +86,27 @@ namespace Chartboost.Core.Usercentrics.Tests
             yield return TestStatus(ChartboostCoreConsentStatus.Unknown);
         }
         
-        private static IEnumerator TestStatus(ChartboostCoreConsentStatus testStatus)
+        private static IEnumerator TestStatus(ChartboostCoreConsentStatus status)
         {
-            // var callback = false;
-            // ChartboostCore.Consent.ConsentStatusChange += AssertStatus;
-            ChartboostCoreLogger.Log($"Target Status: {testStatus}, Current Status {ChartboostCore.Consent.ConsentStatus}");
+            var callback = false;
+            ChartboostCore.Consent.ConsentStatusChange += AssertStatus;
+            ChartboostCoreLogger.Log($"Initial - Target Status: {status}, Current Status {ChartboostCore.Consent.ConsentStatus}");
             
-            var task = ChartboostCore.Consent.SetConsentStatus(testStatus, ChartboostCoreConsentStatusSource.User);
+            var task = ChartboostCore.Consent.SetConsentStatus(status, ChartboostCoreConsentStatusSource.Developer);
             
             yield return new WaitUntil(() => task.IsCompleted);
-            // yield return new WaitUntil(() => callback);
-            
-            var consentStatus = ChartboostCore.Consent.ConsentStatus;
-            ChartboostCoreLogger.Log($"After - Target Status: {testStatus}, Current Status {ChartboostCore.Consent.ConsentStatus}");
-            Assert.IsTrue(task.Result);
-            Assert.AreEqual(testStatus, consentStatus);
+            yield return new WaitUntil(() => callback);
 
-            void AssertStatus(ChartboostCoreConsentStatus status)
+            var currentStatus = ChartboostCore.Consent.ConsentStatus;
+            ChartboostCoreLogger.Log($"After - Target Status: {status}, Current Status {currentStatus}");
+            Assert.IsTrue(task.Result);
+
+            void AssertStatus(ChartboostCoreConsentStatus newStatus)
             {
-                Assert.AreEqual(status, testStatus);
-                var stat = ChartboostCore.Consent.ConsentStatus;
-                Assert.AreEqual(status, stat);
-                ChartboostCoreLogger.Log($"Target Status: {testStatus}, New Status: {status}, ConsentStatus: {stat}");
+                Assert.AreEqual(newStatus, status);
+                ChartboostCoreLogger.Log($"Callback - Target Status: {status}, New Status: {newStatus}");
                 ChartboostCore.Consent.ConsentStatusChange -= AssertStatus;
-                // callback = true;
+                callback = true;
             }
         }
     }
