@@ -1,0 +1,21 @@
+{
+    "name": "com.chartboost.consent.usercentrics.ios",
+    "rootNamespace": "Chartboost.Core.Usercentrics.iOS",
+    "references": [
+        "com.chartboost.consent.usercentrics",
+        "com.chartboost.core.ios",
+        "com.chartboost.core"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "iOS"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
