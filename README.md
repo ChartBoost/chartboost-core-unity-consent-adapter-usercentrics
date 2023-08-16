@@ -15,7 +15,7 @@ The Chartboost Core Usercentrics adapter mediates Usercentrics via the Chartboos
 
 ## Integration
 
-Chartboost Core Usercentrics Adapter is distributed using the public [npm registry](https://www.npmjs.com/search?q=com.chartboost.core.consent.usercentrics) as such it is compatible with the Unity Package Manager (UPM). In order to add the CChartboost Core Unity Usercentrics Adapter to your project, just add the following to your Unity Project's ***manifest.json*** file. The scoped registry section is required in order to fetch packages from the NpmJS registry.
+Chartboost Core Usercentrics Adapter is distributed using the public [npm registry](https://www.npmjs.com/search?q=com.chartboost.core.consent.usercentrics) as such it is compatible with the Unity Package Manager (UPM). In order to add the Chartboost Core Usercentrics Adapter to your project, just add the following to your Unity Project's ***manifest.json*** file. The scoped registry section is required in order to fetch packages from the NpmJS registry.
 
 ```json
   "dependencies": {
