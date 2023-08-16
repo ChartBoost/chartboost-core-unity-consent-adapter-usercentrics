@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Chartboost.Core.Android.Modules;
 using UnityEngine;
 using UnityEngine.Scripting;
@@ -16,20 +15,10 @@ namespace Chartboost.Core.Usercentrics.Android
         [Preserve]
         public UsercentricsAdapter(string dpsName, UsercentricsOptions options) : base(CreateInstance(dpsName, options)) { }
 
-        [Preserve]
-        public UsercentricsAdapter(Dictionary<string, object> jsonConfig) : base(CreateInstance(jsonConfig)) { }
-
         private static AndroidJavaObject CreateInstance(string dpsName, UsercentricsOptions options)
         {
             var usercentricsOptions = new AndroidJavaObject(ClassUsercentricsOptions, options.SettingsId);
             return new AndroidJavaObject(ClassUsercentricsAdapter, dpsName, usercentricsOptions);
-        }
-
-        private static AndroidJavaObject CreateInstance(Dictionary<string, object> jsonConfig)
-        {
-            var usercentricsAdapter = new AndroidJavaObject(ClassUsercentricsAdapter);
-            usercentricsAdapter.Call("updateProperties");
-            return usercentricsAdapter;
         }
     }
 }

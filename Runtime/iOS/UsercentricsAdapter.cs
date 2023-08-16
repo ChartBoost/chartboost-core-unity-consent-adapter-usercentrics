@@ -17,14 +17,8 @@ namespace Chartboost.Core.Usercentrics.iOS
         [Preserve]
         public UsercentricsAdapter(string dpsName, UsercentricsOptions options) : base(CreateInstance(dpsName, options)) { }
 
-        [Preserve]
-        public UsercentricsAdapter(Dictionary<string, object> jsonConfig) : base(CreateInstance(jsonConfig)) { }
-
         private static IntPtr CreateInstance(string dpsName, UsercentricsOptions options) => _chartboostCoreGetUsercentricsAdapter(dpsName, options.SettingsId);
-
-        private static IntPtr CreateInstance(Dictionary<string, object> jsonConfig) => _chartboostCoreGetUsercentricsAdapterFromConfig(JsonConvert.SerializeObject(jsonConfig));
-
+        
         [DllImport(IOSConstants.DLLImport)] private static extern IntPtr _chartboostCoreGetUsercentricsAdapter(string dpsName, string settingsId);
-        [DllImport(IOSConstants.DLLImport)] private static extern IntPtr _chartboostCoreGetUsercentricsAdapterFromConfig(string jsonConfig);
     }
 }

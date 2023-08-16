@@ -10,11 +10,4 @@ extern "C" {
         [[CBCUnityObserver sharedObserver] storeModule:usercentricsAdapter];
         return (__bridge void*)usercentricsAdapter;
     }
-
-    const void* _chartboostCoreGetUsercentricsAdapterFromConfig(const char* jsonConfig){
-        NSDictionary* credentials = stringToNSDictionary(jsonConfig);
-        id<CBCInitializableModule> usercentricsAdapter = [[CBCUsercentricsAdapter alloc] initWithCredentials:credentials];
-        [[CBCUnityObserver sharedObserver] storeModule:usercentricsAdapter];
-        return (__bridge void*)usercentricsAdapter;
-    }
 }
