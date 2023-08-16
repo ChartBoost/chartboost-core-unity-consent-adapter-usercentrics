@@ -78,7 +78,7 @@ namespace Chartboost.Core.Usercentrics.Tests
                 var settingsId = UsercentricsOptions.SettingsId;
 
                 if (string.IsNullOrEmpty(settingsId))
-                    ChartboostCoreLogger.Log($"Exception: {result.Exception?.Message}");
+                    ChartboostCoreLogger.Log($"Exception: {JsonConvert.SerializeObject(result.Error)}");
 
                 Assert.IsNotNull(result.Start);
                 Assert.IsNotNull(result.End);

@@ -11,14 +11,23 @@ namespace Chartboost.Core.Usercentrics.Android
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void SetInstance() => Usercentrics.UsercentricsAdapter.InstanceType = typeof(UsercentricsAdapter);
-        
+
+        [Preserve]
+        public UsercentricsAdapter(UsercentricsOptions options) : base(CreateInstance(options)) { }
+
         [Preserve]
         public UsercentricsAdapter(string dpsName, UsercentricsOptions options) : base(CreateInstance(dpsName, options)) { }
 
+        private static AndroidJavaObject CreateInstance(UsercentricsOptions options)
+        {
+            var usercentricsOptions = new AndroidJavaObject(ClassUsercentricsOptions, options.SettingsId);
+            return new AndroidJavaObject(ClassUsercentricsAdapter, usercentricsOptions);
+        }
+        
         private static AndroidJavaObject CreateInstance(string dpsName, UsercentricsOptions options)
         {
             var usercentricsOptions = new AndroidJavaObject(ClassUsercentricsOptions, options.SettingsId);
-            return new AndroidJavaObject(ClassUsercentricsAdapter, dpsName, usercentricsOptions);
+            return new AndroidJavaObject(ClassUsercentricsAdapter, usercentricsOptions, dpsName);
         }
     }
 }
