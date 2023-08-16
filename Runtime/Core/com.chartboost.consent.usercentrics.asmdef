@@ -1,0 +1,16 @@
+{
+    "name": "com.chartboost.consent.usercentrics",
+    "rootNamespace": "Chartboost.Core.Usercentrics",
+    "references": [
+        "com.chartboost.core"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
