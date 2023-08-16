@@ -14,5 +14,6 @@
     "email": "",
     "url": "https://chartboost.com"
   },
-  "homepage": "https://chartboost.com"
+  "homepage": "https://chartboost.com",
+  "description": "Usercentrics CMP adapters for mediating through Chartboost Core."
 }
