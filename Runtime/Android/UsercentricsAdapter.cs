@@ -22,7 +22,7 @@ namespace Chartboost.Core.Usercentrics.Android
         private static AndroidJavaObject CreateInstance(string dpsName, UsercentricsOptions options)
         {
             var usercentricsOptions = new AndroidJavaObject(ClassUsercentricsOptions, options.SettingsId);
-            return new AndroidJavaObject(ClassUsercentricsAdapter, dpsName, usercentricsOptions, null);
+            return new AndroidJavaObject(ClassUsercentricsAdapter, dpsName, usercentricsOptions);
         }
 
         private static AndroidJavaObject CreateInstance(Dictionary<string, object> jsonConfig)
