@@ -13,7 +13,6 @@ namespace Chartboost.Core.Usercentrics.Tests
     public class ConsentTests 
     {
         private const string DateFormat = "yyyy/MM/dd HH:mm:ss.fff";
-        private const float ConstDelayAfterInit = 2f;
         
         private static readonly UsercentricsOptions UsercentricsOptions = new UsercentricsOptions("");
         
@@ -23,7 +22,7 @@ namespace Chartboost.Core.Usercentrics.Tests
             UsercentricsAdapter
         };
 
-        private static bool ShouldSucceedInitialization => !string.IsNullOrEmpty(UsercentricsOptions.SettingsId);
+        private static bool UsercentricsShouldWork => !string.IsNullOrEmpty(UsercentricsOptions.SettingsId);
 
         [SetUp]
         public void Setup()
@@ -54,19 +53,19 @@ namespace Chartboost.Core.Usercentrics.Tests
         [UnityTest, Order(4)]
         public IEnumerator ModuleInitialization()
         {
-            
             ChartboostCore.ModuleInitializationCompleted += AssertModule;
             ChartboostCore.Consent.ConsentModuleReady += AssertCallback;
 
-            var fired = false;
-            void AssertCallback() => fired = true;
+            var moduleReady = false;
+            void AssertCallback() => moduleReady = true;
 
+            var assertedModule = false;
             void AssertModule(ModuleInitializationResult result)
             {
                 if (result == null)
                     return;
                 
-                if (result.Module != UsercentricsAdapter)
+                if (result.Module.ModuleId != UsercentricsAdapter.ModuleId)
                     return;
                 
                 Assert.IsNotNull(result.ToJson());
@@ -89,17 +88,17 @@ namespace Chartboost.Core.Usercentrics.Tests
                 ChartboostCoreLogger.Log($"Module Id: {result.Module.ModuleId}");
                 ChartboostCoreLogger.Log($"Module Version: {result.Module.ModuleVersion}");
                 ChartboostCoreLogger.Log($"--------");
+                assertedModule = true;
             }
 
             Assert.AreEqual(ConsentStatus.Unknown, ChartboostCore.Consent.ConsentStatus);
             
             var sdkConfig = new SDKConfiguration(Application.identifier);
             ChartboostCore.Initialize(sdkConfig, _modules);
-            yield return new WaitForSeconds(ConstDelayAfterInit);
+            yield return new WaitUntil(() => assertedModule);
             ChartboostCore.ModuleInitializationCompleted -= AssertModule;
-            
-            if (ShouldSucceedInitialization)
-                yield return new WaitUntil(() => fired);
+            if (UsercentricsShouldWork)
+                yield return new WaitUntil(() => moduleReady);
             ChartboostCore.Consent.ConsentModuleReady -= AssertCallback;
             ChartboostCoreLogger.Log($"Consent After Initialization: {ChartboostCore.Consent.ConsentStatus}");
 
@@ -137,7 +136,7 @@ namespace Chartboost.Core.Usercentrics.Tests
             var task = func(source);
             yield return new WaitUntil(() => task.IsCompleted);
             var result = task.Result;
-            if (ShouldSucceedInitialization)
+            if (UsercentricsShouldWork)
                 Assert.IsTrue(result);
             else
                 Assert.IsFalse(result);

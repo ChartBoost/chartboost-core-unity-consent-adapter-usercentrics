@@ -1,10 +1,12 @@
 using Chartboost.Core.Initialization;
-using UnityEngine.Scripting;
 
 namespace Chartboost.Core.Usercentrics
 {
     public class UsercentricsAdapter : NativeInitializableModule<UsercentricsAdapter>
     {
+        protected override string DefaultModuleId => "usercentrics";
+        protected override string DefaultModuleVersion => "0.1.0";
+
         public string DPSName { get; }
         public UsercentricsOptions Options { get; }
 
