@@ -10,7 +10,12 @@ namespace Chartboost.Core.Usercentrics.Android
         private const string ClassUsercentricsOptions = "com.usercentrics.sdk.UsercentricsOptions";
         
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void SetInstance() => Usercentrics.UsercentricsAdapter.InstanceType = typeof(UsercentricsAdapter);
+        private static void SetInstance()
+        {
+            if (Application.isEditor)
+                return;
+            Usercentrics.UsercentricsAdapter.InstanceType = typeof(UsercentricsAdapter);
+        }
 
         [Preserve]
         public UsercentricsAdapter(UsercentricsOptions options) : base(CreateInstance(options)) { }

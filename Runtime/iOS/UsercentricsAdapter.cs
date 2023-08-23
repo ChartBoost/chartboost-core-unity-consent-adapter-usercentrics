@@ -12,7 +12,12 @@ namespace Chartboost.Core.Usercentrics.iOS
     internal class UsercentricsAdapter : NativeModule
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void SetInstance() => Usercentrics.UsercentricsAdapter.InstanceType = typeof(UsercentricsAdapter);
+        private static void SetInstance()
+        {
+            if (Application.isEditor)
+                return;
+            Usercentrics.UsercentricsAdapter.InstanceType = typeof(UsercentricsAdapter);
+        }
 
         [Preserve]
         public UsercentricsAdapter(UsercentricsOptions options) : base(CreateInstance(options)) { }
