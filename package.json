@@ -1,7 +1,7 @@
 {
   "name": "com.chartboost.core.consent.usercentrics",
   "displayName": "Chartboost Core Consent Usercentrics",
-  "version": "0.2.8-0",
+  "version": "0.2.8-1",
   "unity": "2020.3",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
