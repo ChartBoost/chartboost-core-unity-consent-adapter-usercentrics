@@ -5,7 +5,7 @@
   "unity": "2020.3",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1",
-    "com.chartboost.core": "0.0.0"
+    "com.chartboost.core": "0.2.0"
   },
   "keywords": [],
   "license": "",
