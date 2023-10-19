@@ -3,6 +3,9 @@
 Note the first digit of every adapter version corresponds to the major version of the Chartboost Core SDK compatible with that adapter. 
 Adapters are compatible with any Chartboost Core SDK version within that major version.
 
+### Version 0.2.8-3 *(2023-10-19)*
+- Updated Unity dependency to Chartboost Core Unity SDK `0.3.1`.
+
 ### Version 0.2.8-2 *(2023-10-19)*
 - Updated Unity dependency to Chartboost Core Unity SDK `0.3.0`.
 - Updated native Android dependency to use `0.2.8.1.3`.
