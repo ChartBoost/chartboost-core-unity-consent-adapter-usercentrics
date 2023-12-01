@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Chartboost.Core.Consent;
 using Chartboost.Core.Initialization;
@@ -16,7 +17,7 @@ namespace Chartboost.Core.Usercentrics.Tests
         
         private static readonly UsercentricsOptions UsercentricsOptions = new UsercentricsOptions("");
         
-        private static readonly UsercentricsAdapter UsercentricsAdapter = new UsercentricsAdapter("ChartboostCore", UsercentricsOptions);
+        private static readonly UsercentricsAdapter UsercentricsAdapter = new UsercentricsAdapter("ChartboostCore", UsercentricsOptions, new Dictionary<string, string>());
         
         private readonly InitializableModule[] _modules = {
             UsercentricsAdapter
