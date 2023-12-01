@@ -2,11 +2,11 @@
 <dependencies>
     <androidPackages>
         <!-- Usercentrics Dependency -->
-        <androidPackage spec="com.chartboost:chartboost-core-consent-adapter-usercentrics:0.2.8.1.4@aar"/>
+        <androidPackage spec="com.chartboost:chartboost-core-consent-adapter-usercentrics:0.2.8.1.5@aar"/>
         <androidPackage spec="com.usercentrics.sdk:usercentrics-ui:2.8.1"/>
     </androidPackages>
     <iosPods>
         <!-- Usercentrics Podspec -->
-        <iosPod name="ChartboostCoreConsentAdapterUsercentrics" version="0.2.8.0.1" addToAllTargets="true"/>
+        <iosPod name="ChartboostCoreConsentAdapterUsercentrics" version="0.2.8.0.2" addToAllTargets="true"/>
     </iosPods>
 </dependencies>
