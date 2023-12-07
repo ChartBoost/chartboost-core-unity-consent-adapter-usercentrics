@@ -20,15 +20,14 @@ namespace Chartboost.Core.Usercentrics.iOS
         }
 
         [Preserve]
-        public UsercentricsAdapter(UsercentricsOptions options) : base(CreateInstance(options)) { }
+        public UsercentricsAdapter(UsercentricsOptions options, IDictionary<string, string> templateIdToPartnerId) : base(CreateInstance(options, templateIdToPartnerId)) { }
 
         [Preserve]
-        public UsercentricsAdapter(string dpsName, UsercentricsOptions options) : base(CreateInstance(dpsName, options)) { }
+        public UsercentricsAdapter(string dpsName, UsercentricsOptions options, IDictionary<string, string> templateIdToPartnerId) : base(CreateInstance(dpsName, options, templateIdToPartnerId)) { }
 
-        private static IntPtr CreateInstance(UsercentricsOptions options) => _chartboostCoreGetUsercentricsAdapter(options.SettingsId);
-        private static IntPtr CreateInstance(string dpsName, UsercentricsOptions options) => _chartboostCoreGetUsercentricsAdapterWithDPS(dpsName, options.SettingsId);
+        private static IntPtr CreateInstance(UsercentricsOptions options, IDictionary<string, string> templateIdToPartnerId) => _chartboostCoreGetUsercentricsAdapter("ChartboostCore", options.SettingsId, JsonConvert.SerializeObject(templateIdToPartnerId));
+        private static IntPtr CreateInstance(string dpsName, UsercentricsOptions options, IDictionary<string, string> templateIdToPartnerId) => _chartboostCoreGetUsercentricsAdapter(dpsName, options.SettingsId, JsonConvert.SerializeObject(templateIdToPartnerId));
         
-        [DllImport(IOSConstants.DLLImport)] private static extern IntPtr _chartboostCoreGetUsercentricsAdapter(string settingsId);
-        [DllImport(IOSConstants.DLLImport)] private static extern IntPtr _chartboostCoreGetUsercentricsAdapterWithDPS(string dpsName, string settingsId);
+        [DllImport(IOSConstants.DLLImport)] private static extern IntPtr _chartboostCoreGetUsercentricsAdapter(string dpsName, string settingsId, string templateIdToPartnerId);
     }
 }
