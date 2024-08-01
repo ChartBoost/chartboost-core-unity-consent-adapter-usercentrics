@@ -1,10 +1,12 @@
 {
-    "name": "com.chartboost.consent.usercentrics.android",
+    "name": "Chartboost.Core.Consent.Usercentrics.Android",
     "rootNamespace": "Chartboost.Core.Usercentrics.Android",
     "references": [
-        "com.chartboost.consent.usercentrics",
-        "com.chartboost.core.android",
-        "com.chartboost.core"
+        "Chartboost.Core.Consent.Usercentrics",
+        "Chartboost.Core.Android",
+        "Chartboost.Core",
+        "Chartboost.Utilities.Android",
+        "Chartboost.Logging"
     ],
     "includePlatforms": [
         "Android",
