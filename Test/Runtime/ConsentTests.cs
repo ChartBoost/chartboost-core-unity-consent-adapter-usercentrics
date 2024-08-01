@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Chartboost.Core.Consent;
 using Chartboost.Core.Initialization;
-using Newtonsoft.Json;
+using Chartboost.Json;
+using Chartboost.Logging;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -14,30 +16,23 @@ namespace Chartboost.Core.Usercentrics.Tests
     public class ConsentTests 
     {
         private const string DateFormat = "yyyy/MM/dd HH:mm:ss.fff";
+
+        private const string InvalidSettingsId = "abcdefg12345";
         
-        private static readonly UsercentricsOptions UsercentricsOptions = new UsercentricsOptions("");
+        private static readonly UsercentricsOptions UsercentricsOptions = new(InvalidSettingsId);
         
-        private static readonly UsercentricsAdapter UsercentricsAdapter = new UsercentricsAdapter("ChartboostCore", UsercentricsOptions, new Dictionary<string, string>());
+        private static readonly UsercentricsAdapter UsercentricsAdapter = new(UsercentricsOptions, new Dictionary<string, string>());
         
-        private readonly InitializableModule[] _modules = {
+        private readonly List<Module> _modules = new() {
             UsercentricsAdapter
         };
 
-        private static bool UsercentricsShouldWork => !string.IsNullOrEmpty(UsercentricsOptions.SettingsId);
+        private static bool UsercentricsShouldWork => UsercentricsAdapter.Options.SettingsId != InvalidSettingsId;
 
         [SetUp]
         public void Setup()
         {
-            ChartboostCore.Debug = true;
-        }
-        
-        
-        [Test, Order(5)]
-        public void GetConsentStatus()
-        {
-            var status = ChartboostCore.Consent.ConsentStatus;
-            ChartboostCoreLogger.Log($"ConsentStatus: {Enum.GetName(typeof(ConsentStatus), status)}");
-            Assert.IsNotNull(status);
+            LogController.LoggingLevel = LogLevel.Debug;
         }
 
         [Test, Order(5)]
@@ -45,8 +40,8 @@ namespace Chartboost.Core.Usercentrics.Tests
         {
             var contents = ChartboostCore.Consent.Consents;
             Assert.IsNotNull(contents);
-            var asJson = JsonConvert.SerializeObject(contents);
-            ChartboostCoreLogger.Log($"Consents as Json: {asJson}");
+            var asJson = JsonTools.SerializeObject(contents);
+            LogController.Log($"Consents as Json: {asJson}", LogLevel.Debug);
             Assert.IsNotNull(asJson);
             Assert.IsNotEmpty(asJson);
         }
@@ -55,84 +50,76 @@ namespace Chartboost.Core.Usercentrics.Tests
         public IEnumerator ModuleInitialization()
         {
             ChartboostCore.ModuleInitializationCompleted += AssertModule;
-            ChartboostCore.Consent.ConsentModuleReady += AssertCallback;
-
+            ChartboostCore.Consent.ConsentModuleReadyWithInitialConsents += AssertCallback;
             var moduleReady = false;
-            void AssertCallback() => moduleReady = true;
+            void AssertCallback(IReadOnlyDictionary<ConsentKey, ConsentValue> initialConsents) => moduleReady = true;
 
             var assertedModule = false;
             void AssertModule(ModuleInitializationResult result)
             {
-                if (result == null)
-                    return;
-                
-                if (result.Module.ModuleId != UsercentricsAdapter.ModuleId)
+                if (result.ModuleId != UsercentricsAdapter.ModuleId)
                     return;
                 
                 Assert.IsNotNull(result.ToJson());
                 Assert.IsNotEmpty(result.ToJson());
 
-                Assert.AreEqual(result.Module.ModuleId, UsercentricsAdapter.ModuleId);
-                Assert.AreEqual(result.Module.ModuleVersion, UsercentricsAdapter.ModuleVersion);
+                Assert.AreEqual(result.ModuleId, UsercentricsAdapter.ModuleId);
+                Assert.AreEqual(result.ModuleVersion, UsercentricsAdapter.ModuleVersion);
 
                 var settingsId = UsercentricsOptions.SettingsId;
 
                 if (string.IsNullOrEmpty(settingsId))
-                    ChartboostCoreLogger.Log($"Exception: {JsonConvert.SerializeObject(result.Error)}");
+                    LogController.Log($"Exception: {JsonTools.SerializeObject(result.Error)}", LogLevel.Debug);
 
                 Assert.IsNotNull(result.Start);
                 Assert.IsNotNull(result.End);
                 Assert.GreaterOrEqual(result.Duration, 0);
-                ChartboostCoreLogger.Log($"Start: {result.Start.ToString(DateFormat)}");
-                ChartboostCoreLogger.Log($"End: {result.End.ToString(DateFormat)}");
-                ChartboostCoreLogger.Log($"Duration: {result.Duration}");
-                ChartboostCoreLogger.Log($"Module Id: {result.Module.ModuleId}");
-                ChartboostCoreLogger.Log($"Module Version: {result.Module.ModuleVersion}");
-                ChartboostCoreLogger.Log($"--------");
+                LogController.Log($"Start: {result.Start.ToString(DateFormat)}", LogLevel.Debug);
+                LogController.Log($"End: {result.End.ToString(DateFormat)}", LogLevel.Debug);
+                LogController.Log($"Duration: {result.Duration}", LogLevel.Debug);
+                LogController.Log($"Module Id: {result.ModuleId}", LogLevel.Debug);
+                LogController.Log($"Module Version: {result.ModuleVersion}", LogLevel.Debug);
+                LogController.Log($"--------", LogLevel.Debug);
                 assertedModule = true;
             }
-
-            Assert.AreEqual(ConsentStatus.Unknown, ChartboostCore.Consent.ConsentStatus);
             
-            var sdkConfig = new SDKConfiguration(Application.identifier);
-            ChartboostCore.Initialize(sdkConfig, _modules);
+            var sdkConfig = new SDKConfiguration(Application.identifier, _modules, new HashSet<string> { "chartboost_mediation"});
+            ChartboostCore.Initialize(sdkConfig);
             yield return new WaitUntil(() => assertedModule);
             ChartboostCore.ModuleInitializationCompleted -= AssertModule;
             if (UsercentricsShouldWork)
                 yield return new WaitUntil(() => moduleReady);
-            ChartboostCore.Consent.ConsentModuleReady -= AssertCallback;
-            ChartboostCoreLogger.Log($"Consent After Initialization: {ChartboostCore.Consent.ConsentStatus}");
+            ChartboostCore.Consent.ConsentModuleReadyWithInitialConsents -= AssertCallback;
 
             var resetConsent = ChartboostCore.Consent.ResetConsent();
             yield return new WaitUntil(() => resetConsent.IsCompleted);
-            ChartboostCoreLogger.Log($"Consent After Reset: {ChartboostCore.Consent.ConsentStatus}");
         }
 
         [UnityTest, Order(5)]
         public IEnumerator GrantDeveloper()
         {
-            yield return TestConsent(ChartboostCore.Consent.GrantConsent, ConsentStatus.Granted, ConsentStatusSource.Developer);
+            yield return TestConsent(ChartboostCore.Consent.GrantConsent, ConsentSource.Developer);
         }
         
         [UnityTest, Order(6)]
         public IEnumerator DenyDeveloper()
         { 
-            yield return TestConsent(ChartboostCore.Consent.DenyConsent, ConsentStatus.Denied, ConsentStatusSource.Developer);
+            yield return TestConsent(ChartboostCore.Consent.DenyConsent, ConsentSource.Developer);
         }
         
         [UnityTest, Order(7)]
         public IEnumerator GrantUser()
         {
-            yield return TestConsent(ChartboostCore.Consent.GrantConsent, ConsentStatus.Granted, ConsentStatusSource.User);
+            yield return TestConsent(ChartboostCore.Consent.GrantConsent, ConsentSource.User);
         }
         
         [UnityTest, Order(8)]
         public IEnumerator DenyUser()
         {
-            yield return TestConsent(ChartboostCore.Consent.DenyConsent, ConsentStatus.Denied, ConsentStatusSource.User);
+            yield return TestConsent(ChartboostCore.Consent.DenyConsent, ConsentSource.User);
         }
 
-        private IEnumerator TestConsent(Func<ConsentStatusSource, Task<bool>> func, ConsentStatus target, ConsentStatusSource source)
+        private static IEnumerator TestConsent(Func<ConsentSource, Task<bool>> func, ConsentSource source)
         {
             var task = func(source);
             yield return new WaitUntil(() => task.IsCompleted);
@@ -141,7 +128,6 @@ namespace Chartboost.Core.Usercentrics.Tests
                 Assert.IsTrue(result);
             else
                 Assert.IsFalse(result);
-            ChartboostCoreLogger.Log($"Target: {target} Actual: {ChartboostCore.Consent.ConsentStatus}");
         }
     }
 }

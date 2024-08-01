@@ -1,8 +1,9 @@
 {
-    "name": "com.chartboost.consent.usercentrics",
+    "name": "Chartboost.Core.Consent.Usercentrics",
     "rootNamespace": "Chartboost.Core.Usercentrics",
     "references": [
-        "com.chartboost.core"
+        "Chartboost.Core",
+        "Chartboost.Logging"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

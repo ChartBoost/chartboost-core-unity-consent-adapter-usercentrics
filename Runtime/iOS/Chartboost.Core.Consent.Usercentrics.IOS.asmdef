@@ -1,10 +1,12 @@
 {
-    "name": "com.chartboost.consent.usercentrics.ios",
+    "name": "Chartboost.Core.Consent.Usercentrics.IOS",
     "rootNamespace": "Chartboost.Core.Usercentrics.iOS",
     "references": [
-        "com.chartboost.consent.usercentrics",
-        "com.chartboost.core.ios",
-        "com.chartboost.core"
+        "Chartboost.Core.Consent.Usercentrics",
+        "Chartboost.Core.IOS",
+        "Chartboost.Core",
+        "Chartboost.Utilities.IOS",
+        "Chartboost.Utilities"
     ],
     "includePlatforms": [
         "Editor",
