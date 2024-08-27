@@ -6,6 +6,6 @@
     </androidPackages>
     <iosPods>
         <!-- Usercentrics Podspec -->
-        <iosPod name="ChartboostCoreConsentAdapterUsercentrics" version="~> 1.2.8.0" addToAllTargets="true"/>
+        <iosPod name="ChartboostCoreConsentAdapterUsercentrics" version="~> 1.2.14.0" addToAllTargets="true"/>
     </iosPods>
 </dependencies>
