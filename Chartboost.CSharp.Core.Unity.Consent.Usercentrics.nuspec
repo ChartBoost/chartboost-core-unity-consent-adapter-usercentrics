@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Chartboost.CSharp.Core.Unity.Consent.Usercentrics</id>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <title>Chartboost Core Consent - Usercentrics</title>
     <description>Usercentrics CMP adapter for mediating through Chartboost Core.</description>
     <authors>Chartboost</authors>
