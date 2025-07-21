@@ -1,0 +1,21 @@
+{
+    "name": "Chartboost.Core.Consent.Usercentrics.Editor",
+    "rootNamespace": "Chartboost.Core.Usercentrics.Editor",
+    "references": [
+        "Chartboost.Core",
+        "Chartboost.Logging",
+        "Chartboost.Core.Consent.Usercentrics",
+        "Chartboost.Utilities"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
