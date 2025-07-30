@@ -2,7 +2,7 @@
 <dependencies>
     <androidPackages>
         <!-- Usercentrics Dependency -->
-        <androidPackage spec="com.chartboost:chartboost-core-consent-adapter-usercentrics:1.2.20.+"/>
+        <androidPackage spec="com.chartboost:chartboost-core-consent-adapter-usercentrics:1.2.21.+"/>
     </androidPackages>
     <iosPods>
         <!-- Usercentrics Podspec -->
