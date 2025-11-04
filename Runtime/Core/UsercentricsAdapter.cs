@@ -12,7 +12,7 @@ namespace Chartboost.Core.Usercentrics
     public class UsercentricsAdapter : NativeModuleWrapper<UsercentricsAdapter>
     {
         protected override string DefaultModuleId => "usercentrics";
-        protected override string DefaultModuleVersion => "1.0.18";
+        protected override string DefaultModuleVersion => "1.0.19";
 
         private readonly Dictionary<string, string> _defaultTemplateIdToPartnerId = new()
         {
