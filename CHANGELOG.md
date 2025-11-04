@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file using the st
 Note the first digit of every adapter version corresponds to the major version of the Chartboost Core SDK compatible with that adapter. 
 Adapters are compatible with any Chartboost Core SDK version within that major version.
 
+### Version 1.0.19 *(2025-11-03)*
+This version of the Usercentrics Consent Adapter supports the following native SDK dependencies:
+  * Android: `com.chartboost:chartboost-core-consent-adapter-usercentrics:1.2.24.+`
+  * iOS: `ChartboostCoreConsentAdapterUsercentrics: ~> 1.2.24.0`
+
 ### Version 1.0.18 *(2025-10-31)*
 This version of the Usercentrics Consent Adapter supports the following native SDK dependencies:
   * Android: `com.chartboost:chartboost-core-consent-adapter-usercentrics:1.2.24.+`
