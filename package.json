@@ -1,14 +1,20 @@
 {
   "name": "com.chartboost.core.consent.usercentrics",
   "displayName": "Chartboost Core - Consent Usercentrics",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "unity": "2022.3",
   "dependencies": {
     "com.chartboost.core": "1.0.0",
     "com.chartboost.unity.utilities": "1.0.1",
     "com.chartboost.unity.logging": "1.0.0"
   },
-  "keywords": [],
+  "keywords": [
+    "Chartboost",
+    "Core",
+    "Unity",
+    "Consent",
+    "Usercentrics"
+  ],
   "license": "MIT",
   "author": {
     "name": "Chartboost",
@@ -16,5 +22,14 @@
     "url": "https://chartboost.com"
   },
   "homepage": "https://chartboost.com",
-  "description": "Usercentrics CMP adapter for mediating through Chartboost Core."
+  "description": "Usercentrics CMP adapter for mediating through Chartboost Core.",
+  "changelogUrl": "https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics/blob/main/CHANGELOG.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics/issues",
+    "email": "helium-service@chartboost.com"
+  }
 }

@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Chartboost.CSharp.Core.Unity.Consent.Usercentrics</id>
-    <version>1.0.19</version>
+    <version>1.0.20</version>
     <title>Chartboost Core Consent - Usercentrics</title>
     <description>Usercentrics CMP adapter for mediating through Chartboost Core.</description>
     <authors>Chartboost</authors>
@@ -10,9 +10,9 @@
     <license type="file">LICENSE.md</license>
     <readme>README.md</readme>
     <projectUrl>https://www.chartboost.com</projectUrl>
-    <copyright>Copyright 2024</copyright>
-    <tags>Chartboost, Consent, Usercentrics, Core, Unity, cs</tags>
-    <repository type="git" url="https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics"/>
+    <copyright>Copyright 2023</copyright>
+    <tags>Chartboost, Core, Unity, Consent, Usercentrics</tags>
+    <repository type="git" url="https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics.git"/>
     <dependencies>
       <dependency id="Chartboost.CSharp.Core.Unity" version="1.0.0" />
       <dependency id="Chartboost.CSharp.Utilities.Unity" version="1.0.1" />
