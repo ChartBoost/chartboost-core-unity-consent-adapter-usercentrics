@@ -18,7 +18,7 @@ Chartboost Core Usercentrics Adapter is distributed using the public [npm regist
 
 ```json
   "dependencies": {
-    "com.chartboost.core.consent.usercentrics": "1.0.30",
+    "com.chartboost.core.consent.usercentrics": "1.0.31",
     ...
   },
   "scopedRegistries": [
