@@ -12,7 +12,7 @@ namespace Chartboost.Core.Usercentrics
     public class UsercentricsAdapter : NativeModuleWrapper<UsercentricsAdapter>
     {
         protected override string DefaultModuleId => "usercentrics";
-        protected override string DefaultModuleVersion => "1.0.33";
+        protected override string DefaultModuleVersion => "1.0.34";
 
         private readonly Dictionary<string, string> _defaultTemplateIdToPartnerId = new()
         {
@@ -55,14 +55,16 @@ namespace Chartboost.Core.Usercentrics
                 TemplateIdToPartnerId = _defaultTemplateIdToPartnerId;
             else
             {
+                // Merge into a copy: the caller's dictionary must not change. Keys compare ordinally, as native's do.
+                var merged = new Dictionary<string, string>(templateIdToPartnerId);
                 foreach (var defaultTemplateId in _defaultTemplateIdToPartnerId)
                 {
                     var key = defaultTemplateId.Key;
                     var value = defaultTemplateId.Value;
-                    if (!templateIdToPartnerId.TryAdd(key, value)) 
+                    if (!merged.TryAdd(key, value)) 
                         LogController.Log($"Key: {key} is part of default template ids", LogLevel.Debug);
                 }
-                TemplateIdToPartnerId = new ReadOnlyDictionary<string, string>(templateIdToPartnerId);
+                TemplateIdToPartnerId = new ReadOnlyDictionary<string, string>(merged);
             }
         }
     }

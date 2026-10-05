@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file using the st
 Note the first digit of every adapter version corresponds to the major version of the Chartboost Core SDK compatible with that adapter. 
 Adapters are compatible with any Chartboost Core SDK version within that major version.
 
+### Version 1.0.34 *(2026-10-05)*
+This version of the Usercentrics Consent Adapter supports the following native SDK dependencies:
+  * Android: `com.chartboost:chartboost-core-consent-adapter-usercentrics:1.2.32.+`
+  * iOS: `ChartboostCoreConsentAdapterUsercentrics: ~> 1.2.31.0`
+
+Bug Fixes:
+- `UsercentricsAdapter` no longer modifies the `templateIdToPartnerId` dictionary passed to its constructor; the default template ids are merged into a copy.
+
 ### Version 1.0.33 *(2026-09-22)*
 This version of the Usercentrics Consent Adapter supports the following native SDK dependencies:
   * Android: `com.chartboost:chartboost-core-consent-adapter-usercentrics:1.2.31.+`

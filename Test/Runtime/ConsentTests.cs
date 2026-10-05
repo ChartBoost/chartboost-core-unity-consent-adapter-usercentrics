@@ -17,6 +17,8 @@ namespace Chartboost.Core.Usercentrics.Tests
     {
         private const string DateFormat = "yyyy/MM/dd HH:mm:ss.fff";
 
+        private const float TimeoutSeconds = 10f;
+
         private const string InvalidSettingsId = "abcdefg12345";
         
         private static readonly UsercentricsOptions UsercentricsOptions = new(InvalidSettingsId);
@@ -29,11 +31,17 @@ namespace Chartboost.Core.Usercentrics.Tests
 
         private static bool UsercentricsShouldWork => UsercentricsAdapter.Options.SettingsId != InvalidSettingsId;
 
+        private LogLevel _initialLogLevel;
+
         [SetUp]
         public void Setup()
         {
+            _initialLogLevel = LogController.LoggingLevel;
             LogController.LoggingLevel = LogLevel.Debug;
         }
+
+        [TearDown]
+        public void TearDown() => LogController.LoggingLevel = _initialLogLevel;
 
         [Test, Order(5)]
         public void GetConsents()
@@ -83,16 +91,22 @@ namespace Chartboost.Core.Usercentrics.Tests
                 assertedModule = true;
             }
             
-            var sdkConfig = new SDKConfiguration(Application.identifier, _modules, new HashSet<string> { "chartboost_mediation"});
-            ChartboostCore.Initialize(sdkConfig);
-            yield return new WaitUntil(() => assertedModule);
-            ChartboostCore.ModuleInitializationCompleted -= AssertModule;
-            if (UsercentricsShouldWork)
-                yield return new WaitUntil(() => moduleReady);
-            ChartboostCore.Consent.ConsentModuleReadyWithInitialConsents -= AssertCallback;
+            try
+            {
+                var sdkConfig = new SDKConfiguration(Application.identifier, _modules, new HashSet<string> { "chartboost_mediation"});
+                ChartboostCore.Initialize(sdkConfig);
+                yield return WaitUntil(() => assertedModule);
+                if (UsercentricsShouldWork)
+                    yield return WaitUntil(() => moduleReady);
+            }
+            finally
+            {
+                ChartboostCore.ModuleInitializationCompleted -= AssertModule;
+                ChartboostCore.Consent.ConsentModuleReadyWithInitialConsents -= AssertCallback;
+            }
 
             var resetConsent = ChartboostCore.Consent.ResetConsent();
-            yield return new WaitUntil(() => resetConsent.IsCompleted);
+            yield return WaitUntil(() => resetConsent.IsCompleted);
         }
 
         [UnityTest, Order(5)]
@@ -122,12 +136,20 @@ namespace Chartboost.Core.Usercentrics.Tests
         private static IEnumerator TestConsent(Func<ConsentSource, Task<bool>> func, ConsentSource source)
         {
             var task = func(source);
-            yield return new WaitUntil(() => task.IsCompleted);
+            yield return WaitUntil(() => task.IsCompleted);
             var result = task.Result;
             if (UsercentricsShouldWork)
                 Assert.IsTrue(result);
             else
                 Assert.IsFalse(result);
+        }
+
+        private static IEnumerator WaitUntil(Func<bool> condition)
+        {
+            var deadline = Time.realtimeSinceStartup + TimeoutSeconds;
+            while (!condition() && Time.realtimeSinceStartup < deadline)
+                yield return null;
+            Assert.IsTrue(condition(), $"timed out after {TimeoutSeconds}s");
         }
     }
 }
