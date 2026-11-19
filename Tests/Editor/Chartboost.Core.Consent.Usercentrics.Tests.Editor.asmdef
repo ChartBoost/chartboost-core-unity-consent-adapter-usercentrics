@@ -1,6 +1,6 @@
 {
     "name": "Chartboost.Core.Consent.Usercentrics.Tests.Editor",
-    "rootNamespace": "Chartboost.Core.Usercentrics.Tests.Editor",
+    "rootNamespace": "Chartboost.Core.Consent.Usercentrics.Tests.Editor",
     "references": [
         "UnityEditor.TestRunner",
         "Chartboost.Utilities.Editor"

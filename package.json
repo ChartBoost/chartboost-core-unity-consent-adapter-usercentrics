@@ -1,11 +1,11 @@
 {
   "name": "com.chartboost.core.consent.usercentrics",
   "displayName": "Chartboost Core - Consent Usercentrics",
-  "version": "1.0.34",
+  "version": "1.0.35",
   "unity": "2022.3",
   "dependencies": {
     "com.chartboost.core": "1.0.0",
-    "com.chartboost.unity.utilities": "1.0.1",
+    "com.chartboost.unity.utilities": "2.0.0",
     "com.chartboost.unity.logging": "1.0.0"
   },
   "keywords": [
@@ -24,6 +24,7 @@
   "homepage": "https://chartboost.com",
   "description": "Usercentrics CMP adapter for mediating through Chartboost Core.",
   "changelogUrl": "https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://docs.chartboost.com/en/legal/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ChartBoost/chartboost-core-unity-consent-adapter-usercentrics.git"

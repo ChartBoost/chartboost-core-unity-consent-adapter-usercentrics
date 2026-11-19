@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Chartboost.Testing;
 using NUnit.Framework;
 
 namespace Chartboost.Core.Usercentrics.Tests
@@ -28,7 +29,7 @@ namespace Chartboost.Core.Usercentrics.Tests
 
             Assert.AreEqual("settings-id", adapter.Options.SettingsId);
             Assert.AreEqual("admob", adapter.TemplateIdToPartnerId["r7rvuoyDz"]);
-            Assert.AreEqual("usercentrics", adapter.ModuleId);
+            AdapterContract.AssertModuleIdentity("usercentrics", adapter.ModuleId, adapter.ModuleVersion);
         }
 
         [Test]
