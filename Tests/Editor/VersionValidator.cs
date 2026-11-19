@@ -1,7 +1,7 @@
 using Chartboost.Editor;
 using NUnit.Framework;
 
-namespace Chartboost.Core.Usercentrics.Tests.Editor
+namespace Chartboost.Core.Consent.Usercentrics.Tests.Editor
 {
     public class VersionValidator
     {
